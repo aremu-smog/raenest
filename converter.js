@@ -1,4 +1,4 @@
-console.loog("Converter script loaded")
+console.log("Converter script loaded")
 
 const API_ENDPOINT =
 	"https://ha6leouolrtc3byh6hxlsoyqsm0wxyhm.lambda-url.eu-west-2.on.aws/?api_key=EcfBmu2FXCDiZNbjRFr_c20n$06869527s"
