@@ -113,7 +113,7 @@ const populateDropdownOptions = (data = {}) => {
 	// African countries are the key of the object from the rates API
 	const africanCountries = Object.keys(data)
 
-	// All African countries have the same international countries so we pick jst th efirst one
+	// All African countries have the same international countries so we pick just the first one
 	const internationalCountries = Object.keys(data[africanCountries[0]])
 
 	const africaCountryOptions = africanCountries
@@ -232,6 +232,7 @@ const handleCurrencySelection = (data = {}) => {
 				FROM_CURRENCY = currency
 			}
 
+			updateTransactionFee()
 			closeCurrencyOptions()
 		})
 	})
@@ -307,7 +308,6 @@ const populateTransferOptions = options => {
 		option.addEventListener("click", () => {
 			const value = option.getAttribute("data-value")
 			transferType = value
-			updateTransactionFee()
 			selectedTransferType.innerHTML = TRANSFER_OPTIONS[value].label
 			transactionTypeDropdown.classList.remove("w--open")
 		})
