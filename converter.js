@@ -1,4 +1,15 @@
-console.log("Converter script loaded")
+const currentUrl = window.location.pathname
+
+const isOnBusinessPage = currentUrl.includes("business")
+
+const TRANSFER_OPTIONS_TYPE = {
+	DROPDOWN: "dropdown",
+	TAB: "tab",
+}
+
+const transferOptionType = isOnBusinessPage
+	? TRANSFER_OPTIONS_TYPE.DROPDOWN
+	: TRANSFER_OPTIONS_TYPE.TAB
 
 const API_ENDPOINT =
 	"https://byhon4v4qh.execute-api.eu-west-2.amazonaws.com/pro-d/rates?api_key=EcfBmu2FXCDiZNbjRFr_c20n$06869527s&include_fee=true"
@@ -287,20 +298,13 @@ between Raenest accounts.`,
 	},
 }
 
-const TRANSFER_OPTIONS_TEMPLATE = ({ label, value, description }) => {
-	return `<button type="button" data-value="${value}" class="currency_transfer-type">
-                                  <div class="convert_modal_option-text_wrap">
-                                    <div class="convert_modal_option-heading">${label}</div>
-                                    <div class="convert_modal_option-text">${description}</div>
-                                  </div>
-                                </button>`
-}
-
 const populateTransferOptions = options => {
 	const availableOptions = Object.keys(options)
 	const transferOptionsList = [...availableOptions, "internal"]
 		.map(option => {
-			return TRANSFER_OPTIONS_TEMPLATE(TRANSFER_OPTIONS[option])
+			return TRANSFER_OPTION_TEMPLATES[transferOptionType](
+				TRANSFER_OPTIONS[option]
+			)
 		})
 		.join("")
 	transactionTypeList.innerHTML = transferOptionsList
@@ -380,5 +384,19 @@ const currencyData = {
 		symbol: "$",
 		flagUrl:
 			"https://cdn.prod.website-files.com/67d85bdb392a92fa03e2f524/67f30b6cbba583171c47994d_usa.svg",
+	},
+}
+
+const TRANSFER_OPTION_TEMPLATES = {
+	[TRANSFER_OPTIONS_TYPE.DROPDOWN]: ({ label, value, description }) => {
+		return `<button type="button" data-value="${value}" class="currency_transfer-type">
+                                  <div class="convert_modal_option-text_wrap">
+                                    <div class="convert_modal_option-heading">${label}</div>
+                                    <div class="convert_modal_option-text">${description}</div>
+                                  </div>
+                                </button>`
+	},
+	[TRANSFER_OPTIONS_TYPE.TAB]: ({ label, value }) => {
+		return `<button data-value="${value}" type="button" class="currency_transfer-type" class="currency_transfer_full-link">${label}</button>`
 	},
 }
