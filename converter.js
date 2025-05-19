@@ -79,6 +79,11 @@ const fetchData = async () => {
 }
 fetchData()
 
+const updateDeliveryDuration = duration => {
+	if (deliveryDurationText) {
+		deliveryDurationText.innerHTML = duration
+	}
+}
 const handleInput =
 	e =>
 	(target, isInverse = false) => {
@@ -165,7 +170,7 @@ const handleLoadDefault = ({
 	fromCurrencySymbol.innerHTML = currencyData[firstInternationalCountry].symbol
 	toCurrencySymbol.innerHTML = currencyData[firstAfricanCountry].symbol
 
-	deliveryDurationText.innerHTML = deliveryDuration[firstAfricanCountry]
+	updateDeliveryDuration(deliveryDuration[firstAfricanCountry])
 
 	const transactionFeeObject = transactionFee[firstAfricanCountry]
 
@@ -212,7 +217,7 @@ const handleCurrencySelection = (data = {}) => {
 				const fromAmountValue =
 					Number(toAmount.value.replaceAll(",", "")) / exchangeRate
 				fromAmount.value = Number(fromAmountValue.toFixed(2)).toLocaleString()
-				deliveryDurationText.innerHTML = deliveryDuration[currency]
+				updateDeliveryDuration(deliveryDuration[currency])
 				TO_CURRENCY = currency
 				const transactionFeeObject = transactionFee[currency]
 				populateTransferOptions(transactionFeeObject)
