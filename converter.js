@@ -310,24 +310,54 @@ const populateTransferOptions = options => {
 	transactionTypeList.innerHTML = transferOptionsList
 
 	const transferOptionsCta = document.querySelectorAll(
-		".currency_transfer-type"
+		isOnBusinessPage
+			? ".currency_transfer-type"
+			: ".currency_transfer_full-link"
 	)
 
 	transferOptionsCta.forEach(option => {
 		option.addEventListener("click", () => {
 			const value = option.getAttribute("data-value")
 			transferType = value
-			selectedTransferType.innerHTML = TRANSFER_OPTIONS[value].label
-			transactionTypeDropdown.classList.remove("w--open")
+
+			selectTransferOption(transferType)
 		})
 	})
 }
 
+const selectTransferOption = value => {
+	const selectedTransferOption = document.querySelector(
+		`[data-value='${value}']`
+	)
+	const transferOptionsCta = document.querySelectorAll(
+		isOnBusinessPage
+			? ".currency_transfer-type"
+			: ".currency_transfer_full-link"
+	)
+	transferOptionsCta.forEach(option => {
+		option.classList.remove("is-active")
+	})
+	selectedTransferOption.classList.add("is-active")
+	if (isOnBusinessPage) {
+		selectedTransferType.innerHTML = TRANSFER_OPTIONS[value].label
+		transactionTypeDropdown.classList.remove("w--open")
+	}
+}
+
 const updateTransactionFee = () => {
 	const isInternalTransfer = transferType === "internal"
+
+	const availableTransferOptions = Object.keys(transactionFee[TO_CURRENCY])
+	const isTransferOptionAvailableForCurrency =
+		availableTransferOptions.indexOf(transferType) > -1
+	const firstTransferOption = availableTransferOptions[0]
+	const _transferType = isTransferOptionAvailableForCurrency
+		? transferType
+		: firstTransferOption
+
 	const _transactionFee = isInternalTransfer
 		? { min: 0, percent: 0, cap: 0 }
-		: transactionFee[TO_CURRENCY][transferType]
+		: transactionFee[TO_CURRENCY][_transferType]
 
 	const { min, percent, cap } = _transactionFee
 	const _toAmount = Number(toAmount.value.replaceAll(",", ""))
@@ -338,6 +368,7 @@ const updateTransactionFee = () => {
 	).toFixed(2)
 
 	transactionFeeText.innerHTML = `${toCurrencySymbol.innerHTML}${actualTransactionFee}`
+	selectTransferOption(_transferType)
 }
 
 convertButton.addEventListener("click", () => {
@@ -397,6 +428,6 @@ const TRANSFER_OPTION_TEMPLATES = {
                                 </button>`
 	},
 	[TRANSFER_OPTIONS_TYPE.TAB]: ({ label, value }) => {
-		return `<button data-value="${value}" type="button" class="currency_transfer-type" class="currency_transfer_full-link">${label}</button>`
+		return `<button data-value="${value}" type="button" class="currency_transfer_full-link">${label}</button>`
 	},
 }
