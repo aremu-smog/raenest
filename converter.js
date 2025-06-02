@@ -1,7 +1,5 @@
 const handleCurrencyConversion = () => {
-	const currencyConverters = currencyConverter.querySelectorAll(
-		".currency-converter"
-	)
+	const currencyConverters = document.querySelectorAll(".currency-converter")
 
 	currencyConverters.forEach(currencyConverter => {
 		const currentUrl = window.location.pathname
