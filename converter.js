@@ -2,21 +2,18 @@ const handleCurrencyConversion = () => {
 	const currencyConverters = document.querySelectorAll(".currency-converter")
 
 	currencyConverters.forEach(currencyConverter => {
-		const currentUrl = window.location.pathname
-
-		const transferStyleType = currencyConverter.getAttribute(
-			"transfer-type-style"
-		)
-
-		const isOnBusinessPage = currentUrl.includes("business")
-
 		const TRANSFER_OPTIONS_TYPE = {
 			DROPDOWN: "dropdown",
 			TAB: "tab",
 		}
+		const transferStyleType =
+			currencyConverter.getAttribute("transfer-type-style") ??
+			TRANSFER_OPTIONS_TYPE.DROPDOWN
 
-		const transferOptionType =
-			transferStyleType ?? TRANSFER_OPTIONS_TYPE.DROPDOWN
+		const isTransferOptionsDropdown =
+			transferStyleType === TRANSFER_OPTIONS_TYPE.DROPDOWN
+
+		const transferOptionType = transferStyleType
 
 		const API_ENDPOINT =
 			"https://byhon4v4qh.execute-api.eu-west-2.amazonaws.com/pro-d/rates?api_key=EcfBmu2FXCDiZNbjRFr_c20n$06869527s&include_fee=true"
@@ -345,7 +342,7 @@ between Raenest accounts.`,
 			transactionTypeList.innerHTML = transferOptionsList
 
 			const transferOptionsCta = currencyConverter.querySelectorAll(
-				isOnBusinessPage
+				isTransferOptionsDropdown
 					? ".currency_transfer-type"
 					: ".currency_transfer_full-link"
 			)
@@ -365,7 +362,7 @@ between Raenest accounts.`,
 				`[data-value='${value}']`
 			)
 			const transferOptionsCta = currencyConverter.querySelectorAll(
-				isOnBusinessPage
+				isTransferOptionsDropdown
 					? ".currency_transfer-type"
 					: ".currency_transfer_full-link"
 			)
@@ -373,7 +370,7 @@ between Raenest accounts.`,
 				option.classList.remove("is-active")
 			})
 			selectedTransferOption.classList.add("is-active")
-			if (isOnBusinessPage) {
+			if (isTransferOptionsDropdown) {
 				selectedTransferType.innerHTML = TRANSFER_OPTIONS[value].label
 				transactionTypeDropdown.classList.remove("w--open")
 			}
