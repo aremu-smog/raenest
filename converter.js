@@ -372,7 +372,7 @@ between Raenest accounts.`,
 			selectedTransferOption.classList.add("is-active")
 			if (isTransferOptionsDropdown) {
 				selectedTransferType.innerHTML = TRANSFER_OPTIONS[value].label
-				transactionTypeDropdown.classList.remove("w--open")
+				transactionTypeDropdown.click()
 			}
 		}
 
