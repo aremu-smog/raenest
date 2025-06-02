@@ -63,8 +63,8 @@ const handleCurrencyConversion = () => {
 			"#exchange-rate-from"
 		)
 
-		const currencyDropdownLists = currencyConverter.querySelectorAll(
-			".currency_dropdown_list"
+		const currencyDropdownToggles = currencyConverter.querySelectorAll(
+			".currency_dropdown-toggle"
 		)
 		const transferOptionsClose = currencyConverter.querySelector(
 			"#transfer-options-close"
@@ -299,8 +299,13 @@ const handleCurrencyConversion = () => {
 		}
 
 		const closeCurrencyOptions = () => {
-			currencyDropdownLists.forEach(currencyDropdownList => {
-				currencyDropdownList.classList.remove("w--open")
+			currencyDropdownToggles.forEach(currencyDropdownToggle => {
+				const isOpen = currencyDropdownToggle.classList
+					.join(",")
+					.includes("w--open")
+				if (isOpen) {
+					currencyDropdownToggle.click()
+				}
 			})
 		}
 
