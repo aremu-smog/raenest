@@ -4,6 +4,10 @@ const handleCurrencyConversion = () => {
 	currencyConverters.forEach(currencyConverter => {
 		const currentUrl = window.location.pathname
 
+		const transferStyleType = currencyConverter.getAttribute(
+			"transfer-type-style"
+		)
+
 		const isOnBusinessPage = currentUrl.includes("business")
 
 		const TRANSFER_OPTIONS_TYPE = {
@@ -11,9 +15,8 @@ const handleCurrencyConversion = () => {
 			TAB: "tab",
 		}
 
-		const transferOptionType = isOnBusinessPage
-			? TRANSFER_OPTIONS_TYPE.DROPDOWN
-			: TRANSFER_OPTIONS_TYPE.TAB
+		const transferOptionType =
+			transferStyleType ?? TRANSFER_OPTIONS_TYPE.DROPDOWN
 
 		const API_ENDPOINT =
 			"https://byhon4v4qh.execute-api.eu-west-2.amazonaws.com/pro-d/rates?api_key=EcfBmu2FXCDiZNbjRFr_c20n$06869527s&include_fee=true"
