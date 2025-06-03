@@ -356,13 +356,12 @@ between Raenest accounts.`,
 				option.addEventListener("click", () => {
 					const value = option.getAttribute("data-value")
 					transferType = value
-
-					selectTransferOption(transferType)
+					selectTransferOption(transferType, true)
 				})
 			})
 		}
 
-		const selectTransferOption = value => {
+		const selectTransferOption = (value, shouldToggle = false) => {
 			const selectedTransferOption = currencyConverter.querySelector(
 				`[data-value='${value}']`
 			)
@@ -377,7 +376,9 @@ between Raenest accounts.`,
 			selectedTransferOption.classList.add("is-active")
 			if (isTransferOptionsDropdown) {
 				selectedTransferType.innerHTML = TRANSFER_OPTIONS[value].label
-				transactionTypeDropdown.click()
+				if (shouldToggle) {
+					transactionTypeDropdown.click()
+				}
 			}
 		}
 
