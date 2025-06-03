@@ -300,9 +300,8 @@ const handleCurrencyConversion = () => {
 
 		const closeCurrencyOptions = () => {
 			currencyDropdownToggles.forEach(currencyDropdownToggle => {
-				const isOpen = currencyDropdownToggle.classList
-					.join(",")
-					.includes("w--open")
+				const dropdownToggleClassList = currencyDropdownToggle.classList ?? []
+				const isOpen = dropdownToggleClassList.join(",").includes("w--open")
 				if (isOpen) {
 					currencyDropdownToggle.click()
 				}
